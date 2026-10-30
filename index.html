@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0F7F86">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="جدول ١٨">
+<title>جدول سكشن ١٨</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF3F6;--surface:#fff;--ink:#14213D;--muted:#5B6B80;--line:#D5DEE6;--accent:#0F7F86;--accent-ink:#fff;--hot:#F2A900;--hot-ink:#2A1E00;--danger:#B3261E;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1626;--surface:#17233A;--ink:#EAF0F7;--muted:#9AABC0;--line:#2A3A55;--accent:#3FC1C9;--accent-ink:#06282B;--hot:#F2B731;--hot-ink:#2A1E00;--danger:#FF8A80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1626;--surface:#17233A;--ink:#EAF0F7;--muted:#9AABC0;--line:#2A3A55;--accent:#3FC1C9;--accent-ink:#06282B;--hot:#F2B731;--hot-ink:#2A1E00;--danger:#FF8A80;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",Arial,sans-serif;line-height:1.6}
+main{max-width:640px;margin:0 auto;padding:16px 16px 96px}
+h1{font-size:1.4rem;margin:8px 0 16px;font-weight:700}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.next{background:var(--hot);color:var(--hot-ink);border-radius:18px;padding:18px 20px;margin-bottom:20px}
+.next small{display:block;font-size:.9rem;opacity:.85}
+.next .name{font-size:1.6rem;font-weight:700;line-height:1.3;margin:2px 0}
+.next .when{font-size:1rem}
+.next .count{font-size:2.2rem;font-weight:700;margin-top:6px}
+.next.empty{background:var(--surface);color:var(--muted);border:1px dashed var(--line)}
+
+.wk{display:flex;gap:6px;margin-bottom:10px}.wk .tab{flex:1}.wk .tab[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.tab{flex:1 0 auto;min-width:72px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 10px;text-align:center}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab .today{display:block;font-size:.7rem;color:var(--accent)}
+.tab[aria-selected="true"] .today{color:var(--hot)}
+
+.list{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:12px;background:var(--surface);border-radius:14px;padding:12px 14px;border-inline-start:6px solid var(--c);align-items:center}
+.row .time{min-width:78px;font-weight:500;font-size:.9rem;color:var(--muted);line-height:1.4}
+.row .info{flex:1}
+.row .t{font-weight:700}
+.row .m{font-size:.85rem;color:var(--muted)}
+.row .acts{display:flex;gap:4px}
+.ic{border:0;background:transparent;color:var(--muted);padding:8px;border-radius:8px;font-size:.85rem}
+.ic:hover{background:var(--bg);color:var(--ink)}
+.ic.del:hover{color:var(--danger)}
+.row.now{outline:2px solid var(--accent)}
+.emptyday{text-align:center;color:var(--muted);padding:32px 0}
+
+.fab{position:fixed;inset-inline-start:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:14px 22px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.set{margin-top:28px;padding:14px;border:1px solid var(--line);border-radius:14px;font-size:.9rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.set select,.set button{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+
+dialog{border:0;border-radius:18px;background:var(--surface);color:var(--ink);width:min(92vw,420px);padding:20px}
+dialog::backdrop{background:rgba(5,10,20,.55)}
+dialog h2{margin:0 0 12px;font-size:1.15rem}
+label{display:block;font-size:.85rem;color:var(--muted);margin-top:10px}
+input,select.f{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btns{display:flex;gap:10px;margin-top:18px}
+.btns button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--bg)}
+.btns .go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:700}
+.err{color:var(--danger);font-size:.85rem;min-height:1.2em;margin-top:8px}
+.toast{position:fixed;inset-inline:16px;top:calc(12px + env(safe-area-inset-top,0px));max-width:600px;margin:0 auto;background:var(--ink);color:var(--bg);padding:14px 16px;border-radius:14px;font-weight:500;z-index:50;display:none}
+@media (prefers-reduced-motion:no-preference){.toast.show{animation:d .25s ease-out}@keyframes d{from{transform:translateY(-12px);opacity:0}}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast" role="alert"></div>
+<main>
+  <h1>جدول سكشن ١٨</h1>
+  <section class="next" id="next" aria-live="polite"></section>
+  <div class="wk" id="wk"></div>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="list" id="list"></div>
+
+  <div class="set">
+    <span>نبّهني قبل المحاضرة بـ</span>
+    <select id="lead" aria-label="وقت التنبيه">
+      <option value="5">٥ دقايق</option><option value="10">١٠ دقايق</option>
+      <option value="15">١٥ دقيقة</option><option value="30">٣٠ دقيقة</option>
+    </select>
+    <button id="perm">فعّل إشعارات المتصفح</button>
+    <span style="flex-basis:100%">التنبيهات بتشتغل والصفحة مفتوحة بس.</span>
+  </div>
+</main>
+<button class="fab" id="add">+ ضيف محاضرة</button>
+
+<dialog id="dlg">
+  <h2 id="dt">محاضرة جديدة</h2>
+  <label>اسم المادة<input id="fn" maxlength="60" placeholder="مثلًا: تحليل رياضي"></label>
+  <label>اليوم<select id="fd" class="f"></select></label>
+  <label>الفترة<select id="fper" class="f"></select></label>
+  <div class="two">
+    <label>من<input id="fs" type="time"></label>
+    <label>إلى<input id="fe" type="time"></label>
+  </div>
+  <label>المكان (اختياري)<input id="fp" maxlength="40" placeholder="مدرج ٢ / معمل ٣"></label>
+  <label>الدكتور (اختياري)<input id="fdoc" maxlength="40"></label>
+  <div class="err" id="err"></div>
+  <div class="btns"><button id="cancel">إلغاء</button><button class="go" id="save">حفظ المحاضرة</button></div>
+</dialog>
+
+<script>
+(function(){
+var DAYS=[{d:6,n:"السبت"},{d:0,n:"الأحد"},{d:1,n:"الاثنين"},{d:2,n:"الثلاثاء"},{d:3,n:"الأربعاء"},{d:4,n:"الخميس"}];
+var COLORS=["#0F7F86","#C2410C","#6D28D9","#15803D","#BE185D","#1D4ED8","#A16207"];
+var KEY="college-schedule-v1";
+var $=function(i){return document.getElementById(i)};
+var data={items:[],lead:10};
+try{var r=localStorage.getItem(KEY);if(r){var p=JSON.parse(r);if(p&&p.items)data=p}}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}}
+var SEED=[["مقدمة الحاسبات والمعلوماتية",6,"08:30","10:10","C2","أحمد محسن"],["رياضيات ١ لعلوم الحاسب",6,"10:20","12:00","قاعة ٣ (Hardware)","محمد كمال"],["أساسيات الإلكترونيات والدوائر الكهربية",0,"08:30","10:10","قاعة ٣ (Hardware)","ياسمين توفيق"],["مقدمة للبرمجة وحل المشكلات",0,"12:20","14:00","B4 (Hardware)","دعاء الشبراوي"],["لغة إنجليزية لعلوم الحاسب",4,"12:20","14:00","قاعة ٤ (Hardware)","خلود عامر"],["مهارات الاتصال والجوانب الأخلاقية والمهنية",4,"14:10","15:50","قاعة ٢","أحمد أسعد"],["أونلاين: أساسيات الإلكترونيات والدوائر الكهربية",1,"19:30","21:00","أونلاين","نهال صقر، نيرة العزب"],["أونلاين: رياضيات تكميلية (علمي علوم)",1,"21:00","22:30","أونلاين","شريف بركات"],["أونلاين: رياضيات ١ لعلوم الحاسب",2,"19:30","21:00","أونلاين","سمير الموجي، رشا صقر، عمرو الادكاوي"],["أونلاين: مقدمة للبرمجة وحل المشكلات",2,"21:00","22:30","أونلاين","محمد أبو السعود، محمد حجاج"],["أونلاين: مقدمة الحاسبات والمعلوماتية",3,"21:00","22:30","أونلاين","أمل أبو العينين، نجوى العربي، هالة عكاشة"],["أونلاين: مهارات الاتصال والجوانب الأخلاقية والمهنية",4,"19:30","21:00","أونلاين","حازم البكري، شاهنده الخولي"],["أونلاين: لغة إنجليزية لعلوم الحاسب",4,"21:00","22:30","أونلاين","هبة قنديل، ياسمين الصقار"]].map(function(a,k){return{id:"s"+k,n:a[0],day:a[1],s:a[2],e:a[3],p:a[4],doc:a[5],w:"o"}});
+if(!data.seeded&&!data.items.length){data.items=SEED;data.seeded=1;persist()}
+var SEED2=[["محاضرة: رياضيات تكميلية (علمي علوم)",1,"08:30","10:10","مدرج ١","شريف بركات"],["محاضرة: أساسيات الإلكترونيات والدوائر الكهربية",1,"12:20","14:00","مدرج ٢","نهال صقر، نيرة العزب"],["سكشن أونلاين: أساسيات الإلكترونيات",1,"19:30","21:00","أونلاين","ياسمين توفيق"],["محاضرة: مهارات الاتصال والجوانب الأخلاقية والمهنية",2,"12:20","14:00","مدرج ٢","حازم البكري، شاهنده الخولي"],["محاضرة: رياضيات ١ لعلوم الحاسب",2,"14:10","15:50","مدرج ١","سمير الموجي، رشا صقر، عمرو الادكاوي"],["سكشن أونلاين: رياضيات ١ لعلوم الحاسب",2,"19:30","21:00","أونلاين","محمد كمال"],["سكشن أونلاين: مهارات الاتصال والجوانب الأخلاقية والمهنية",2,"21:00","22:30","أونلاين","أحمد أسعد"],["محاضرة: مقدمة الحاسبات والمعلوماتية",3,"10:20","12:00","مدرج ١","أمل أبو العينين، نجوى العربي، هالة عكاشة"],["سكشن أونلاين: مقدمة للبرمجة وحل المشكلات",3,"19:30","21:00","أونلاين","دعاء الشبراوي"],["سكشن أونلاين: مقدمة الحاسبات والمعلوماتية",3,"21:00","22:30","أونلاين","أحمد محسن"],["محاضرة: مقدمة للبرمجة وحل المشكلات",4,"12:20","14:00","مدرج ١","محمد أبو السعود، محمد حجاج"],["محاضرة: لغة إنجليزية لعلوم الحاسب",4,"14:10","15:50","مدرج ٣","هبة قنديل، ياسمين الصقار"],["سكشن أونلاين: لغة إنجليزية لعلوم الحاسب",4,"21:00","22:30","أونلاين","خلود عامر"]].map(function(a,k){return{id:"e"+k,n:a[0],day:a[1],s:a[2],e:a[3],p:a[4],doc:a[5],w:"e"}});
+if(!data.seed2){SEED2.forEach(function(x){if(!data.items.some(function(i){return i.id===x.id}))data.items.push(x)});data.seed2=1;persist()}
+if(!data.week)data.week="o";
+function cur(){return data.items.filter(function(i){return !i.w||i.w==="b"||i.w===data.week})}
+
+var today=new Date().getDay();
+var sel=DAYS.some(function(x){return x.d===today})?today:6;
+var editId=null,notified={};
+
+function tm(s){var a=s.split(":");return +a[0]*60+ +a[1]}
+function fmt(s){var a=s.split(":"),d=new Date();d.setHours(+a[0],+a[1],0,0);return d.toLocaleTimeString("ar-EG",{hour:"numeric",minute:"2-digit"})}
+function color(n){var h=0;for(var i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))>>>0;return COLORS[h%COLORS.length]}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function dayName(d){return DAYS.filter(function(x){return x.d===d})[0].n}
+
+function renderTabs(){
+  $("tabs").innerHTML=DAYS.map(function(x){
+    return '<button class="tab" role="tab" data-d="'+x.d+'" aria-selected="'+(x.d===sel)+'">'+x.n+(x.d===today?'<span class="today">النهارده</span>':'')+'</button>'}).join("");
+}
+function renderList(){
+  var now=new Date(),mins=now.getHours()*60+now.getMinutes();
+  var L=cur().filter(function(i){return i.day===sel}).sort(function(a,b){return tm(a.s)-tm(b.s)});
+  if(!L.length){$("list").innerHTML='<div class="emptyday">مفيش محاضرات يوم '+dayName(sel)+'.<br>دوس على «ضيف محاضرة» عشان تبدأ.</div>';return}
+  $("list").innerHTML=L.map(function(i){
+    var on=sel===today&&mins>=tm(i.s)&&mins<tm(i.e);
+    var meta=[i.p,i.doc].filter(Boolean).map(esc).join(" - ");
+    return '<div class="row'+(on?' now':'')+'" style="--c:'+color(i.n)+'"><div class="time">'+fmt(i.s)+'<br>'+fmt(i.e)+'</div><div class="info"><div class="t">'+esc(i.n)+(on?' (شغالة دلوقتي)':'')+'</div>'+(meta?'<div class="m">'+meta+'</div>':'')+'</div><div class="acts"><button class="ic" data-edit="'+i.id+'">تعديل</button><button class="ic del" data-del="'+i.id+'">مسح</button></div></div>'}).join("");
+}
+function nextLecture(){
+  var now=new Date(),best=null;
+  cur().forEach(function(i){
+    for(var o=0;o<=7;o++){
+      var d=new Date(now);d.setDate(now.getDate()+o);
+      if(d.getDay()!==i.day)continue;
+      var a=i.s.split(":");d.setHours(+a[0],+a[1],0,0);
+      if(d>now){if(!best||d<best.at)best={i:i,at:d}}
+      break;
+    }
+  });
+  return best;
+}
+function renderNext(){
+  var b=nextLecture(),el=$("next");
+  if(!b){el.className="next empty";el.innerHTML="مفيش محاضرة جاية. ضيف محاضراتك وهتظهر هنا.";return}
+  el.className="next";
+  var diff=Math.round((b.at-new Date())/60000),txt;
+  if(diff<60)txt="بعد "+diff+" دقيقة";
+  else if(diff<1440){var h=Math.floor(diff/60),m=diff%60;txt="بعد "+h+" ساعة"+(m?" و"+m+" دقيقة":"")}
+  else txt="بعد "+Math.floor(diff/1440)+" يوم";
+  var isToday=b.at.toDateString()===new Date().toDateString();
+  el.innerHTML='<small>المحاضرة الجاية</small><div class="name">'+esc(b.i.n)+'</div><div class="when">'+(isToday?"النهارده":dayName(b.i.day))+" الساعة "+fmt(b.i.s)+(b.i.p?" - "+esc(b.i.p):"")+'</div><div class="count">'+txt+'</div>';
+}
+function renderWk(){$("wk").innerHTML=[["o","الأسبوع الفردي"],["e","الأسبوع الزوجي"]].map(function(x){return '<button class="tab" data-w="'+x[0]+'" aria-pressed="'+(data.week===x[0])+'">'+x[1]+'</button>'}).join("")}
+$("wk").onclick=function(ev){var b=ev.target.closest("[data-w]");if(b){data.week=b.dataset.w;persist();renderAll()}};
+function renderAll(){renderWk();renderTabs();renderList();renderNext()}
+
+/* تنبيهات */
+function toast(msg){var t=$("toast");t.textContent=msg;t.className="toast show";t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display="none"},12000)}
+function check(){
+  var now=new Date(),mins=now.getHours()*60+now.getMinutes(),ds=now.toDateString();
+  cur().forEach(function(i){
+    if(i.day!==now.getDay())return;
+    var left=tm(i.s)-mins,k=i.id+ds;
+    if(left>=0&&left<=data.lead&&!notified[k]){
+      notified[k]=1;
+      var msg="محاضرة "+i.n+(left?" بعد "+left+" دقيقة":" بدأت دلوقتي")+(i.p?" في "+i.p:"");
+      toast(msg);
+      try{if("Notification"in window&&Notification.permission==="granted"){if(navigator.serviceWorker&&navigator.serviceWorker.ready){navigator.serviceWorker.ready.then(function(r){r.showNotification("جدول سكشن ١٨",{body:msg,icon:"icon-192.png"})})}else{new Notification("جدول سكشن ١٨",{body:msg})}}}catch(e){}
+    }
+  });
+  renderNext();
+  if(sel===today)renderList();
+}
+
+/* نافذة الإضافة */
+function openDlg(id){
+  editId=id||null;$("err").textContent="";
+  $("fd").innerHTML=DAYS.map(function(x){return '<option value="'+x.d+'">'+x.n+'</option>'}).join("");
+  var i=data.items.filter(function(x){return x.id===id})[0]||{n:"",day:sel,s:"",e:"",p:"",doc:""};
+  $("dt").textContent=id?"تعديل المحاضرة":"محاضرة جديدة";
+  $("fn").value=i.n;$("fd").value=i.day;$("fs").value=i.s;$("fe").value=i.e;$("fp").value=i.p||"";$("fdoc").value=i.doc||"";
+  syncPer();$("dlg").showModal();
+}
+var PERIODS=[["الفترة الأولى","08:30","10:10"],["الفترة الثانية","10:20","12:00"],["الفترة الثالثة","12:20","14:00"],["الفترة الرابعة","14:10","15:50"],["الفترة الخامسة","16:00","17:40"],["الفترة السادسة","17:50","19:30"],["أونلاين ١","19:30","21:00"],["أونلاين ٢","21:00","22:30"]];
+$("fper").innerHTML='<option value="">وقت مخصص</option>'+PERIODS.map(function(p,k){return '<option value="'+k+'">'+p[0]+' ('+fmt(p[1])+' - '+fmt(p[2])+')</option>'}).join("");
+function syncPer(){var k=-1;PERIODS.forEach(function(p,j){if(p[1]===$("fs").value&&p[2]===$("fe").value)k=j});$("fper").value=k<0?"":String(k)}
+$("fper").onchange=function(){if(this.value!==""){var p=PERIODS[+this.value];$("fs").value=p[1];$("fe").value=p[2]}};
+$("fs").onchange=syncPer;$("fe").onchange=syncPer;
+$("add").onclick=function(){openDlg()};
+$("cancel").onclick=function(){$("dlg").close()};
+$("save").onclick=function(){
+  var n=$("fn").value.trim(),s=$("fs").value,e=$("fe").value;
+  if(!n){$("err").textContent="اكتب اسم المادة.";return}
+  if(!s||!e){$("err").textContent="حدد وقت البداية والنهاية.";return}
+  if(tm(e)<=tm(s)){$("err").textContent="وقت النهاية لازم يبقى بعد البداية.";return}
+  var o={id:editId||String(Date.now()),w:editId?((data.items.filter(function(x){return x.id===editId})[0]||{}).w||data.week):data.week,n:n,day:+$("fd").value,s:s,e:e,p:$("fp").value.trim(),doc:$("fdoc").value.trim()};
+  if(editId)data.items=data.items.map(function(x){return x.id===editId?o:x});else data.items.push(o);
+  persist();sel=o.day;$("dlg").close();renderAll();
+};
+$("list").onclick=function(ev){
+  var t=ev.target;
+  if(t.dataset.edit)openDlg(t.dataset.edit);
+  if(t.dataset.del&&confirm("تمسح المحاضرة دي؟")){data.items=data.items.filter(function(x){return x.id!==t.dataset.del});persist();renderAll()}
+};
+$("tabs").onclick=function(ev){var b=ev.target.closest(".tab");if(b){sel=+b.dataset.d;renderTabs();renderList()}};
+$("lead").value=String(data.lead);
+$("lead").onchange=function(){data.lead=+this.value;persist()};
+$("perm").onclick=function(){
+  if(!("Notification"in window)){toast("المتصفح ده مش بيدعم الإشعارات.");return}
+  Notification.requestPermission().then(function(p){toast(p==="granted"?"الإشعارات اتفعّلت.":"الإشعارات مش متفعّلة. هتشوف التنبيه جوه الصفحة بس.")})
+};
+
+renderAll();check();setInterval(check,20000);
+if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+})();
+</script>
+</body>
+</html>
